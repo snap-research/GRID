@@ -128,7 +128,7 @@ def deduplicate_rows_in_tensor(
     """
     Identifies and de-duplicate repeated rows in a PyTorch tensor.
     Rows that are not duplicated will have a new column with value 0,
-    while rows that are duplicated will have a new column indicating the number of duplicates from 1 to N-1
+    while rows that are duplicated will have a new column indicating the number of duplicates from 0 to N-1
     where N is the number of duplicates for that row.
 
     Args:
@@ -150,21 +150,16 @@ def deduplicate_rows_in_tensor(
 
     output_indices = torch.zeros_like(inverse_indices)
 
-    # Find indices where counts > 1 (meaning duplicates exist)
-    duplicate_indices = torch.where(counts > 1)[0]
+    # Sort indices by their cluster assignment to group duplicates together
+    sorted_idx = torch.argsort(inverse_indices, stable=True)
 
-    for i in range(len(duplicate_indices)):
-        # Calculate number of collisions
-        num_of_collisions = counts[duplicate_indices[i]]
-
-        # Gather the indices where the collisions occur
-        indices_to_change = torch.where(inverse_indices == duplicate_indices[i])[0]
-
-        # Create a range based on the number of collision, starting from 1
-        range_to_add = torch.arange(1, num_of_collisions + 1)
-
-        # Scatter to those specific indices
-        output_indices = output_indices.scatter(0, indices_to_change, range_to_add)
+    # For each position in sorted order, check if it's same cluster as previous
+    # and increment counter accordingly
+    for i in range(1, len(sorted_idx)):
+        curr_cluster = inverse_indices[sorted_idx[i]]
+        prev_cluster = inverse_indices[sorted_idx[i - 1]]
+        if curr_cluster == prev_cluster:
+            output_indices[sorted_idx[i]] = output_indices[sorted_idx[i - 1]] + 1
 
     # Concatenate the duplicate indicator column to the original data
     result = torch.cat((data, output_indices.unsqueeze(1)), dim=1).long()
