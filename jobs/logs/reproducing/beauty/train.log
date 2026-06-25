@@ -1,0 +1,30 @@
+[2026-06-10 10:08:01,933][src.utils.utils][INFO] - [rank: 0] Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-06-10 10:08:01,940][src.utils.utils][INFO] - [rank: 0] Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-06-10 10:08:02,223][src.utils.restart_job][INFO] - [rank: 0] Using metadata dir: /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata
+[2026-06-10 10:08:02,223][src.utils.restart_job][INFO] - [rank: 0] Starting job (attempt 1/4): /home/scur1219/.conda/envs/RecSys/bin/python /gpfs/home6/scur1219/GRID/src/train.py experiment=tiger_train_flat data_dir=/projects/prjs2120/groups/group_08/data/amazon_data/beauty semantic_id_path=/projects/prjs2120/groups/group_08/results/sid_rkmeans/beauty/rkmeans_inference/pickle/merged_predictions_tensor.pt num_hierarchies=4 hydra.run.dir=/projects/prjs2120/groups/group_08/results/tiger/beauty ++should_skip_retry=True
+[2026-06-10 10:08:10,587][src.utils.utils][INFO] - [rank: 0] Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-06-10 10:08:10,593][src.utils.utils][INFO] - [rank: 0] Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-06-10 10:08:10,868][src.utils.restart_job][INFO] - [rank: 0] should_skip_retry set to True. Skipping retry logic.
+[2026-06-10 10:08:10,877][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating datamodule <src.data.loading.datamodules.sequence_datamodule.SequenceDataModule>
+[2026-06-10 10:08:10,988][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating model <src.models.modules.semantic_id.tiger_generation_model.SemanticIDEncoderDecoder>
+[2026-06-10 10:08:11,271][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating callbacks...
+[2026-06-10 10:08:11,271][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-06-10 10:08:11,275][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <lightning.pytorch.callbacks.EarlyStopping>
+[2026-06-10 10:08:11,277][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-06-10 10:08:11,278][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <src.utils.restart_job.RestartAndLoadCheckpointCallback>
+[2026-06-10 10:08:11,280][src.utils.restart_job_utils][INFO] - [rank: 0] Trying to load metadata from /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json
+[2026-06-10 10:08:11,281][src.utils.restart_job_utils][WARNING] - [rank: 0] Metadata file not found at /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json. Creating empty metadata.
+[2026-06-10 10:08:11,281][src.utils.restart_job_utils][INFO] - [rank: 0] Saving metadata to /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json. {'start_time': '2026-06-10T10:08:11.281334', 'restarts': [], 'current_run': 0, 'used_ports': [], 'world_size': 0, 'node_rank': 0, 'master_addr': '', 'original_args': ['/gpfs/home6/scur1219/GRID/src/train.py', 'experiment=tiger_train_flat', 'data_dir=/projects/prjs2120/groups/group_08/data/amazon_data/beauty', 'semantic_id_path=/projects/prjs2120/groups/group_08/results/sid_rkmeans/beauty/rkmeans_inference/pickle/merged_predictions_tensor.pt', 'num_hierarchies=4', 'hydra.run.dir=/projects/prjs2120/groups/group_08/results/tiger/beauty', '++should_skip_retry=True']}
+[2026-06-10 10:08:11,323][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating loggers...
+[2026-06-10 10:08:11,323][src.utils.instantiators][INFO] - [rank: 0] Instantiating logger <lightning.pytorch.loggers.csv_logs.CSVLogger>
+[2026-06-10 10:08:11,325][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating trainer <lightning.pytorch.trainer.Trainer>
+[2026-06-10 10:08:11,328][src.utils.restart_job_utils][INFO] - [rank: 0] Trying to load metadata from /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json
+[2026-06-10 10:08:11,331][src.utils.restart_job_utils][INFO] - [rank: 0] Metadata loaded successfully from /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json
+[2026-06-10 10:08:11,331][src.utils.restart_job_utils][INFO] - [rank: 0] Retrieved current_run: 0 from metadata /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json
+[2026-06-10 10:08:11,381][src.utils.launcher_utils][INFO] - [rank: 0] Logging hyperparameters!
+[2026-06-10 10:08:11,803][__main__][INFO] - [rank: 0] Starting training!
+[2026-06-10 10:08:14,827][src.utils.restart_job_utils][INFO] - [rank: 0] Saving metadata to /projects/prjs2120/groups/group_08/results/tiger/beauty/metadata/restart_metadata.json. {'start_time': '2026-06-10T10:08:11.281334', 'restarts': [], 'current_run': 0, 'used_ports': ['44417'], 'world_size': 1, 'node_rank': 0, 'master_addr': '127.0.0.1', 'original_args': ['/gpfs/home6/scur1219/GRID/src/train.py', 'experiment=tiger_train_flat', 'data_dir=/projects/prjs2120/groups/group_08/data/amazon_data/beauty', 'semantic_id_path=/projects/prjs2120/groups/group_08/results/sid_rkmeans/beauty/rkmeans_inference/pickle/merged_predictions_tensor.pt', 'num_hierarchies=4', 'hydra.run.dir=/projects/prjs2120/groups/group_08/results/tiger/beauty', '++should_skip_retry=True']}
+[2026-06-10 15:04:16,480][__main__][INFO] - [rank: 0] Starting testing!
+[2026-06-10 15:06:30,519][__main__][INFO] - [rank: 0] Best ckpt path: /gpfs/work5/0/prjs2120/groups/group_08/results/tiger/beauty/checkpoints/checkpoint_epoch=000_step=004500.ckpt
+[2026-06-10 15:06:30,642][__main__][INFO] - [rank: 0] Metrics: {'train/loss': tensor(7.4643), 'train/loss_step': tensor(7.2329), 'val/loss': tensor(9.4356), 'val/ndcg@5': tensor(0.0389), 'val/ndcg@10': tensor(0.0466), 'val/recall@5': tensor(0.0571), 'val/recall@10': tensor(0.0809), 'train/loss_epoch': tensor(7.4643), 'test/loss': tensor(9.6659), 'test/ndcg@5': tensor(0.0304), 'test/ndcg@10': tensor(0.0369), 'test/recall@5': tensor(0.0452), 'test/recall@10': tensor(0.0655)}
+[2026-06-10 15:06:39,095][src.utils.restart_job][INFO] - [rank: 0] Job finished successfully.

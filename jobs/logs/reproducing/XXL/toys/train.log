@@ -1,0 +1,30 @@
+[2026-06-16 11:57:34,222][src.utils.utils][INFO] - [rank: 0] Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-06-16 11:57:34,228][src.utils.utils][INFO] - [rank: 0] Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-06-16 11:57:34,503][src.utils.restart_job][INFO] - [rank: 0] Using metadata dir: /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata
+[2026-06-16 11:57:34,503][src.utils.restart_job][INFO] - [rank: 0] Starting job (attempt 1/4): /home/scur1219/.conda/envs/RecSys/bin/python /gpfs/home6/scur1219/GRID/src/train.py experiment=tiger_train_flat data_dir=/projects/prjs2120/groups/group_08/data/amazon_data/toys semantic_id_path=/scratch-shared/scur1219/results/sid_rkmeans/XXL/toys/rkmeans_inference/pickle/merged_predictions_tensor.pt num_hierarchies=4 hydra.run.dir=/scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans ++should_skip_retry=True
+[2026-06-16 11:57:42,319][src.utils.utils][INFO] - [rank: 0] Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-06-16 11:57:42,324][src.utils.utils][INFO] - [rank: 0] Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-06-16 11:57:42,597][src.utils.restart_job][INFO] - [rank: 0] should_skip_retry set to True. Skipping retry logic.
+[2026-06-16 11:57:42,606][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating datamodule <src.data.loading.datamodules.sequence_datamodule.SequenceDataModule>
+[2026-06-16 11:57:42,708][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating model <src.models.modules.semantic_id.tiger_generation_model.SemanticIDEncoderDecoder>
+[2026-06-16 11:57:42,952][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating callbacks...
+[2026-06-16 11:57:42,952][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-06-16 11:57:42,955][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <lightning.pytorch.callbacks.EarlyStopping>
+[2026-06-16 11:57:42,958][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-06-16 11:57:42,958][src.utils.instantiators][INFO] - [rank: 0] Instantiating callback <src.utils.restart_job.RestartAndLoadCheckpointCallback>
+[2026-06-16 11:57:42,961][src.utils.restart_job_utils][INFO] - [rank: 0] Trying to load metadata from /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json
+[2026-06-16 11:57:42,961][src.utils.restart_job_utils][WARNING] - [rank: 0] Metadata file not found at /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json. Creating empty metadata.
+[2026-06-16 11:57:42,961][src.utils.restart_job_utils][INFO] - [rank: 0] Saving metadata to /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json. {'start_time': '2026-06-16T11:57:42.961393', 'restarts': [], 'current_run': 0, 'used_ports': [], 'world_size': 0, 'node_rank': 0, 'master_addr': '', 'original_args': ['/gpfs/home6/scur1219/GRID/src/train.py', 'experiment=tiger_train_flat', 'data_dir=/projects/prjs2120/groups/group_08/data/amazon_data/toys', 'semantic_id_path=/scratch-shared/scur1219/results/sid_rkmeans/XXL/toys/rkmeans_inference/pickle/merged_predictions_tensor.pt', 'num_hierarchies=4', 'hydra.run.dir=/scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans', '++should_skip_retry=True']}
+[2026-06-16 11:57:42,961][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating loggers...
+[2026-06-16 11:57:42,962][src.utils.instantiators][INFO] - [rank: 0] Instantiating logger <lightning.pytorch.loggers.csv_logs.CSVLogger>
+[2026-06-16 11:57:42,963][src.utils.launcher_utils][INFO] - [rank: 0] Instantiating trainer <lightning.pytorch.trainer.Trainer>
+[2026-06-16 11:57:42,965][src.utils.restart_job_utils][INFO] - [rank: 0] Trying to load metadata from /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json
+[2026-06-16 11:57:42,967][src.utils.restart_job_utils][INFO] - [rank: 0] Metadata loaded successfully from /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json
+[2026-06-16 11:57:42,967][src.utils.restart_job_utils][INFO] - [rank: 0] Retrieved current_run: 0 from metadata /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json
+[2026-06-16 11:57:43,013][src.utils.launcher_utils][INFO] - [rank: 0] Logging hyperparameters!
+[2026-06-16 11:57:43,419][__main__][INFO] - [rank: 0] Starting training!
+[2026-06-16 11:57:45,258][src.utils.restart_job_utils][INFO] - [rank: 0] Saving metadata to /scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans/metadata/restart_metadata.json. {'start_time': '2026-06-16T11:57:42.961393', 'restarts': [], 'current_run': 0, 'used_ports': ['33453'], 'world_size': 1, 'node_rank': 0, 'master_addr': '127.0.0.1', 'original_args': ['/gpfs/home6/scur1219/GRID/src/train.py', 'experiment=tiger_train_flat', 'data_dir=/projects/prjs2120/groups/group_08/data/amazon_data/toys', 'semantic_id_path=/scratch-shared/scur1219/results/sid_rkmeans/XXL/toys/rkmeans_inference/pickle/merged_predictions_tensor.pt', 'num_hierarchies=4', 'hydra.run.dir=/scratch-shared/scur1219/results/tiger/XXL/toys_rkmeans', '++should_skip_retry=True']}
+[2026-06-16 16:17:12,668][__main__][INFO] - [rank: 0] Starting testing!
+[2026-06-16 16:19:01,920][__main__][INFO] - [rank: 0] Best ckpt path: /gpfs/scratch1/shared/scur1219/results/tiger/XXL/toys_rkmeans/checkpoints/checkpoint_epoch=000_step=004300.ckpt
+[2026-06-16 16:19:01,945][__main__][INFO] - [rank: 0] Metrics: {'train/loss': tensor(7.3486), 'train/loss_step': tensor(6.5392), 'val/loss': tensor(9.9951), 'val/ndcg@5': tensor(0.0367), 'val/ndcg@10': tensor(0.0440), 'val/recall@5': tensor(0.0536), 'val/recall@10': tensor(0.0764), 'train/loss_epoch': tensor(7.3486), 'test/loss': tensor(10.2606), 'test/ndcg@5': tensor(0.0264), 'test/ndcg@10': tensor(0.0333), 'test/recall@5': tensor(0.0409), 'test/recall@10': tensor(0.0624)}
+[2026-06-16 16:19:09,630][src.utils.restart_job][INFO] - [rank: 0] Job finished successfully.

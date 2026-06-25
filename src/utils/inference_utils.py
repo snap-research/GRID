@@ -233,14 +233,20 @@ class LocalPickleWriter(BaseBufferedWriter):
         if self.should_merge_files_on_main:
             # if we use multiple workers, we need to wait for all of them to finish writing
             # before merging the files
-            if trainer.global_rank != None:
+            if (
+                torch.distributed.is_available()
+                and torch.distributed.is_initialized()
+            ):
                 torch.distributed.barrier()
             if self.global_rank == 0:
                 log.info("Merging pickle files on main process.")
                 self._merge_files()
 
             # other processes can continue after merging
-            if trainer.global_rank != None:
+            if (
+                torch.distributed.is_available()
+                and torch.distributed.is_initialized()
+            ):
                 torch.distributed.barrier()
 
         # conducting post-processing functions on the files
@@ -253,7 +259,10 @@ class LocalPickleWriter(BaseBufferedWriter):
                         process_func["function"](file_path)
                 else:
                     process_func["function"](file_path)
-                if trainer.global_rank != None:
+                if (
+                    torch.distributed.is_available()
+                    and torch.distributed.is_initialized()
+                ):
                     torch.distributed.barrier()
 
     def _merge_files(self):

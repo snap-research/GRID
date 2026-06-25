@@ -1,0 +1,35 @@
+#!/bin/bash
+#SBATCH --job-name=recsys_install
+#SBATCH --partition=gpu_mig
+#SBATCH --gpus=1
+#SBATCH --time=2:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G
+#SBATCH --output=jobs/outputs/%x-%j.out
+#SBATCH --error=jobs/outputs/%x-%j.err
+
+cd $HOME/FoMo
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.4.1                  # Cleanly exposes nvcc to DeepSpeed
+
+# 2. Initialize Conda base hooks
+source "$EBROOTANACONDA3/etc/profile.d/conda.sh"
+
+# 3. Use conda-forge to bypass Anaconda's commercial Terms of Service lock
+conda create -n RecSys python=3.10 -c conda-forge -y
+conda activate RecSys
+
+# 4. Tell DeepSpeed where your cluster CUDA module lives
+export CUDA_HOME=$EBROOTCUDA
+
+# 5. Install PyTorch matching CUDA 12.4
+pip install torch==2.6.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+# 6. Install fbgemm-gpu
+pip install fbgemm-gpu==1.1.0+cu124 --index-url https://download.pytorch.org/whl/cu124
+
+# 7. Install the repository dependencies file
+pip install -r /home/scur1219/GRID/requirements.txt
