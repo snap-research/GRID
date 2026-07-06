@@ -8,9 +8,9 @@ sequence_length: 120
 
 model:
   huggingface_model:
-    _target_: transformers.T5EncoderModel
+    _target_: transformers.models.t5.modeling_t5.T5Stack
     config:
-      _target_: transformers.T5Config
+      _target_: transformers.models.t5.configuration_t5.T5Config
       vocab_size: 256
       d_model: 128
       num_heads: 6
@@ -18,7 +18,13 @@ model:
       d_ff: 1024
       d_kv: 64
       num_layers: 4
-  _target_: src.models.modules.semantic_id.tiger_generation_model.SemanticIDEncoderDecoder
+      is_decoder: true
+      is_encoder_decoder: false
+    embed_tokens:
+      _target_: torch.nn.Embedding
+      num_embeddings: ${model.huggingface_model.config.vocab_size}
+      embedding_dim: ${model.huggingface_model.config.d_model}
+  _target_: src.models.modules.semantic_id.tiger_generation_model.SemanticIDDecoderOnly
   feature_to_model_input_map:
     sequence_data: input_ids
     user_id: user_id
@@ -30,27 +36,12 @@ model:
   evaluator: null
   weight_tying: true
   compile: false
-  decoder:
-    _target_: transformers.models.t5.modeling_t5.T5Stack
-    config:
-      _target_: transformers.models.t5.configuration_t5.T5Config
-      vocab_size: ${model.huggingface_model.config.vocab_size}
-      d_model: ${model.huggingface_model.config.d_model}
-      num_heads: ${model.huggingface_model.config.num_heads}
-      dropout_rate: 0.15
-      d_ff: ${model.huggingface_model.config.d_ff}
-      d_kv: ${model.huggingface_model.config.d_kv}
-      num_layers: 4
-      is_decoder: true
-      is_encoder_decoder: false
-    embed_tokens:
-      _target_: torch.nn.Embedding
-      num_embeddings: ${model.huggingface_model.config.vocab_size}
-      embedding_dim: ${model.huggingface_model.config.d_model}
+  decoder: null
   num_hierarchies: ${num_hierarchies}
   num_user_bins: null
   codebooks: ${data_loading.predict_dataloader_config.dataloader.dataset_config.semantic_id_map.sequence_data}
   mlp_layers: 2
+  loss_on_all_positions: true
   top_k_for_generation: 10
 task_name: inference
 id: ${now:%Y-%m-%d}/${now:%H-%M-%S}
@@ -218,4 +209,3 @@ extras:
   enforce_tags: true
   print_config_warnings: true
   print_config: true
-

@@ -1,0 +1,46 @@
+#!/bin/bash
+#SBATCH --job-name=test_dec_only
+#SBATCH --output=logs/test_dec_only_%j.out
+#SBATCH --error=logs/test_dec_only_%j.err
+#SBATCH --partition=gpu_mig
+#SBATCH --gpus=1
+#SBATCH --time=00:15:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+
+module purge
+module load 2023
+module load Anaconda3/2023.07-2
+module load CUDA/12.4.0
+
+source $(conda info --base)/etc/profile.d/conda.sh
+conda activate grid
+
+# Usage: First dataset (beauty, toys, sports), then 
+# model: (grid_decoder_only_all  grid_decoder_only_all_noaug  grid_decoder_only_last  grid_decoder_only_last_noaug)
+
+DATASET=$1
+MODEL=$2
+
+export HYDRA_FULL_ERROR=1
+
+export OMP_NUM_THREADS=8
+
+cd $HOME/GRID
+
+BASE=/projects/prjs2120/groups/group_08
+
+# We can change to grid_decoder_only_last (best performing loss last),  grid_decoder_only_all_noaug (best performing loss all)
+CKPT=$(ls /projects/prjs2120/groups/group_08/results/decoder_only/${MODEL}/${DATASET}/checkpoints/checkpoint_epoch=*.ckpt | head -1)
+
+mkdir -p $HOME/GRID/${MODEL}/${DATASET}/outputs
+
+python -m src.inference experiment=tiger_inference_flat \
+    data_dir=$BASE/data/amazon_data/$DATASET \
+    semantic_id_path=$BASE/results/sid_rkmeans/${DATASET}/rkmeans_inference/pickle/merged_predictions_tensor.pt \
+    ckpt_path="'$CKPT'" \
+    num_hierarchies=4 \
+    hydra.run.dir=$HOME/GRID/${MODEL}/${DATASET} \
+    paths.output_dir=$HOME/GRID/${MODEL}/${DATASET}/outputs \
+    ++should_skip_retry=True

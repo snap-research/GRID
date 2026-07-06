@@ -1,0 +1,48 @@
+#!/bin/bash
+#SBATCH --job-name=grid_dec_last_toys_noaug
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=120G
+#SBATCH --time=04:00:00
+#SBATCH --output=logs/%x-%j.out
+#SBATCH --error=logs/%x-%j.err
+
+set -e
+
+cd $HOME/code
+mkdir -p logs
+touch .project-root
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+
+PY=$HOME/.conda/envs/RecSys/bin/python
+
+echo "Job ID: $SLURM_JOB_ID"
+echo "Running on: $SLURMD_NODENAME"
+nvidia-smi
+echo "--- env check ---"
+$PY -c "import sys; print('python:', sys.executable)"
+$PY -c "import torch; print('torch', torch.__version__, 'cuda', torch.cuda.is_available())"
+echo "-----------------"
+date
+
+DATA_DIR=/projects/prjs2120/groups/group_08/data/amazon_data/toys
+SID_PATH=/projects/prjs2120/groups/group_08/results/sid_rkmeans/toys/rkmeans_inference/pickle/merged_predictions_tensor.pt
+NUM_HIER=4
+OUTDIR=/scratch-shared/$USER/grid_decoder_only_last_noaug/$SLURM_JOB_ID  
+
+$PY -m src.train experiment=tiger_decoder_only_train_no_aug \
+    data_dir=$DATA_DIR \
+    semantic_id_path=$SID_PATH \
+    num_hierarchies=$NUM_HIER \
+    model.loss_on_all_positions=false \
+    callbacks.model_checkpoint.save_last=true \
+    hydra.run.dir=$OUTDIR \
+    trainer.devices=1 \
+    trainer.strategy=auto
+
+date
+echo "Done."

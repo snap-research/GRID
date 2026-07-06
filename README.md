@@ -105,6 +105,45 @@ python -m src.inference experiment=tiger_inference_flat \
     num_hierarchies=4 \ # Please note that we add 1 for num_hierarchies because in the previous step we appended one additional digit to de-duplicate the semantic IDs we generate.
 ```
 
+### Decoder-Only Model (Extension)
+
+In addition to the default encoder-decoder (T5-style) recommender, this repo
+provides a **decoder-only (GPT-style)** generative recommender,
+`SemanticIDDecoderOnly`. It is enabled entirely through the config (no code
+changes are needed) by selecting the decoder-only experiment instead of the
+default `tiger_*_flat` one:
+
+```bash
+# Train the decoder-only model
+python -m src.train experiment=tiger_decoder_only_train_flat \
+    data_dir=data/amazon_data/beauty \
+    semantic_id_path=<output_path_from_step_3>/pickle/merged_predictions_tensor.pt \
+    num_hierarchies=4 \
+    model.loss_on_all_positions=false   # see loss toggle below
+```
+
+```bash
+# Generate recommendations with the decoder-only model
+python -m src.inference experiment=tiger_decoder_only_inference_flat \
+    data_dir=data/amazon_data/beauty \
+    semantic_id_path=<output_path_from_step_3>/pickle/merged_predictions_tensor.pt \
+    ckpt_path=<the_checkpoint_you_just_get_above> \
+    num_hierarchies=4
+```
+
+**Loss objective toggle.** The decoder-only model exposes a next-token
+prediction at every position, so it supports two training objectives via the
+`model.loss_on_all_positions` flag (default `true` in the experiment config):
+
+- `model.loss_on_all_positions=false`: apply the loss only on the final target
+  item (**loss-last**), matching the encoder-decoder TIGER objective.
+- `model.loss_on_all_positions=true`: apply the full causal next-token loss on
+  **all positions** (**loss-all**).
+
+All other knobs (Semantic IDs, model dimensions, optimizer, beam search) are
+shared with the encoder-decoder baseline, so switching the `experiment` value is
+sufficient to compare architectures under identical settings.
+
 ## Supported Models:
 
 ### Semantic ID:
@@ -115,7 +154,8 @@ python -m src.inference experiment=tiger_inference_flat \
 
 ### Generative Recommendation:
 
-1. TIGER [1]
+1. TIGER [1] (encoder-decoder)
+2. Decoder-only (GPT-style) variant with selectable loss-last / loss-all objective
 
 ## 📚 Citation
 
